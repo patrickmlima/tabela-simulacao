@@ -19,6 +19,14 @@ public class LinhaSimulacao {
 	
 	private Integer tempoOciosoOperador;
 	
+	private Integer delay = 0;
+	
+	
+	public LinhaSimulacao(Integer tec, Integer ts) {
+		this.tempoUltimaChegada = tec;
+		this.tempoServico = ts;
+	}
+	
 	public LinhaSimulacao(Integer minTEC, Integer maxTEC, Integer minTS, Integer maxTS) {
 		if(minTEC == null) {
 			minTEC = 0;
@@ -42,18 +50,18 @@ public class LinhaSimulacao {
 			this.tempoOciosoOperador = this.tempoUltimaChegada;
 		} else {
 			// tempo desde a ultima chegada
-			this.tempoChegadaRelogio = previous.tempoUltimaChegada + this.tempoUltimaChegada;
+			this.tempoChegadaRelogio = previous.getTempoChegadaRelogio() + this.tempoUltimaChegada;
 			
 			// tempo incio de servico
-			int delay = 0;
-			if(this.tempoUltimaChegada < previous.tempoServico) {
-				delay = previous.tempoServico - this.tempoUltimaChegada;
+			this.delay = 0;
+			if(this.tempoUltimaChegada < (previous.getTempoServico() + previous.delay)) {
+				this.delay = previous.getTempoServico() - this.tempoUltimaChegada + previous.delay;
 			}
-			this.tempoInicioServico = this.tempoChegadaRelogio + delay;
+			this.tempoInicioServico = this.tempoChegadaRelogio + this.delay;
 			// tempo de espera
-			this.tempoClienteFila = delay;
+			this.tempoClienteFila = this.delay;
 			// tempo ocioso operador
-			this.tempoOciosoOperador = Math.abs(previous.tempoServico - this.tempoUltimaChegada);
+			this.tempoOciosoOperador = Math.abs(previous.getTempoServico() + previous.delay - this.tempoUltimaChegada);
 		}
 		this.tempoFinalServico = this.tempoInicioServico + this.tempoServico;
 		this.tempoClienteSistema = this.tempoClienteFila + this.tempoServico;
