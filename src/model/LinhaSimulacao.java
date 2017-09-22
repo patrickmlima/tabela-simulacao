@@ -3,39 +3,39 @@ package model;
 import java.util.Random;
 
 public class LinhaSimulacao {
-	private Integer tempoUltimaChegada;
+	private Float tempoUltimaChegada;
 	
-	private Integer tempoChegadaRelogio;
+	private Float tempoChegadaRelogio;
 	
-	private Integer tempoServico;
+	private Float tempoServico;
 	
-	private Integer tempoInicioServico;
+	private Float tempoInicioServico;
 	
-	private Integer tempoFinalServico;
+	private Float tempoFinalServico;
 	
-	private Integer tempoClienteFila;
+	private Float tempoClienteFila;
 	
-	private Integer tempoClienteSistema;
+	private Float tempoClienteSistema;
 	
-	private Integer tempoOciosoOperador;
+	private Float tempoOciosoOperador;
 	
-	private Integer delay = 0;
+	private Float delay = 0f;
 	
 	
-	public LinhaSimulacao(Integer tec, Integer ts) {
+	public LinhaSimulacao(Float tec, Float ts) {
 		this.tempoUltimaChegada = tec;
 		this.tempoServico = ts;
 	}
 	
-	public LinhaSimulacao(Integer minTEC, Integer maxTEC, Integer minTS, Integer maxTS) {
+	public LinhaSimulacao(Float minTEC, Float maxTEC, Float minTS, Float maxTS) {
 		if(minTEC == null) {
-			minTEC = 0;
+			minTEC = 0f;
 		}
 		if(minTS == null) {
-			minTS = 0;
+			minTS = 0f;
 		}
-		this.tempoUltimaChegada = new Random().nextInt(maxTEC - minTEC + 1) + minTEC;
-		this.tempoServico = new Random().nextInt(maxTS - minTS + 1) + minTS;
+		this.tempoUltimaChegada = new Random().nextFloat() * (maxTEC - minTEC) + minTEC;
+		this.tempoServico = new Random().nextFloat() * (maxTS - minTS) + minTS;
 	}
 	
 	public void setupData(LinhaSimulacao previous) {
@@ -45,7 +45,7 @@ public class LinhaSimulacao {
 			// tempo incio de servico
 			this.tempoInicioServico = this.tempoChegadaRelogio;
 			// tempo de espera
-			this.tempoClienteFila = 0;
+			this.tempoClienteFila = 0f;
 			// tempo ocioso operador			
 			this.tempoOciosoOperador = this.tempoUltimaChegada;
 		} else {
@@ -53,7 +53,7 @@ public class LinhaSimulacao {
 			this.tempoChegadaRelogio = previous.getTempoChegadaRelogio() + this.tempoUltimaChegada;
 			
 			// tempo incio de servico
-			this.delay = 0;
+			this.delay = 0f;
 			if(this.tempoUltimaChegada < (previous.getTempoServico() + previous.delay)) {
 				this.delay = previous.getTempoServico() - this.tempoUltimaChegada + previous.delay;
 			}
@@ -68,69 +68,67 @@ public class LinhaSimulacao {
 		
 	}
 
-	public Integer getTempoUltimaChegada() {
+	public Float getTempoUltimaChegada() {
 		return tempoUltimaChegada;
 	}
 
-	public void setTempoUltimaChegada(Integer tempoUltimaChegada) {
+	public void setTempoUltimaChegada(Float tempoUltimaChegada) {
 		this.tempoUltimaChegada = tempoUltimaChegada;
 	}
 
-	public Integer getTempoChegadaRelogio() {
+	public Float getTempoChegadaRelogio() {
 		return tempoChegadaRelogio;
 	}
 
-	public void setTempoChegadaRelogio(Integer tempoChegadaRelogio) {
+	public void setTempoChegadaRelogio(Float tempoChegadaRelogio) {
 		this.tempoChegadaRelogio = tempoChegadaRelogio;
 	}
 
-	public Integer getTempoServico() {
+	public Float getTempoServico() {
 		return tempoServico;
 	}
 
-	public void setTempoServico(Integer tempoServico) {
+	public void setTempoServico(Float tempoServico) {
 		this.tempoServico = tempoServico;
 	}
 
-	public Integer getTempoInicioServico() {
+	public Float getTempoInicioServico() {
 		return tempoInicioServico;
 	}
 
-	public void setTempoInicioServico(Integer tempoInicioServico) {
+	public void setTempoInicioServico(Float tempoInicioServico) {
 		this.tempoInicioServico = tempoInicioServico;
 	}
 
-	public Integer getTempoFinalServico() {
+	public Float getTempoFinalServico() {
 		return tempoFinalServico;
 	}
 
-	public void setTempoFinalServico(Integer tempoFinalServico) {
+	public void setTempoFinalServico(Float tempoFinalServico) {
 		this.tempoFinalServico = tempoFinalServico;
 	}
 
-	public Integer getTempoClienteFila() {
+	public Float getTempoClienteFila() {
 		return tempoClienteFila;
 	}
 
-	public void setTempoClienteFila(Integer tempoClienteFila) {
+	public void setTempoClienteFila(Float tempoClienteFila) {
 		this.tempoClienteFila = tempoClienteFila;
 	}
 
-	public Integer getTempoClienteSistema() {
+	public Float getTempoClienteSistema() {
 		return tempoClienteSistema;
 	}
 
-	public void setTempoClienteSistema(Integer tempoClienteSistema) {
+	public void setTempoClienteSistema(Float tempoClienteSistema) {
 		this.tempoClienteSistema = tempoClienteSistema;
 	}
 
-	public Integer getTempoOciosoOperador() {
+	public Float getTempoOciosoOperador() {
 		return tempoOciosoOperador;
 	}
 
-	public void setTempoOciosoOperador(Integer tempoOciosoOperador) {
+	public void setTempoOciosoOperador(Float tempoOciosoOperador) {
 		this.tempoOciosoOperador = tempoOciosoOperador;
 	}
-	
-	
 }
