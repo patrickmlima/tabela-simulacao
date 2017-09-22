@@ -22,10 +22,10 @@ public class LinhaSimulacao {
 	private Float delay = 0f;
 	
 	
-	public LinhaSimulacao(Float tec, Float ts) {
+	/*public LinhaSimulacao(Float tec, Float ts) {
 		this.tempoUltimaChegada = tec;
 		this.tempoServico = ts;
-	}
+	}*/
 	
 	public LinhaSimulacao(Float minTEC, Float maxTEC, Float minTS, Float maxTS) {
 		if(minTEC == null) {
@@ -37,6 +37,43 @@ public class LinhaSimulacao {
 		this.tempoUltimaChegada = new Random().nextFloat() * (maxTEC - minTEC) + minTEC;
 		this.tempoServico = new Random().nextFloat() * (maxTS - minTS) + minTS;
 	}
+	
+	public LinhaSimulacao(float lambda, float lambdaTS) {
+		
+		
+		float pTEC = (float) randomPoisson(lambda);
+		float pTS = (float) randomPoisson(lambdaTS);
+		
+		this.tempoUltimaChegada = pTEC;
+		this.tempoServico = pTS;
+	}
+	 public double randomPoisson(float lambda) {
+	        long x = 0;
+	        double m = Math.exp(-1 * lambda);
+	        double product = 1;
+	        do {
+	            x++;
+	            product *= Math.random();
+	        } while(m < product);
+	        return x-1;
+	    }
+	
+//    private static double poisson(int k, float lambda) {
+//    	return (Math.pow(lambda, k) * Math.pow(Math.E, -1 * lambda)) / factorial(k);         
+//    }
+//
+//	
+//	 private static Long factorial(float n) {
+//	        if (n < 0) {
+//	            return null;
+//	        }
+//	        long result = 1;
+//	        while (n > 0) {
+//	            result *= n--;
+//	        }
+//	       return result;
+//	    }
+	
 	
 	public void setupData(LinhaSimulacao previous) {
 		if(previous == null) {

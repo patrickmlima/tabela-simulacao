@@ -97,7 +97,43 @@ public class TabelaSimulacao {
 		writer.close();
 	}
 	
-	public void gerarTeste() {
+	public void gerarSimulacao(int k, float lambda, float lambdaTS, File output) throws IOException {
+		reset();
+		LinhaSimulacao prev = null;
+		FileWriter writer = new FileWriter(output);
+		//while(true) {
+		for(int i=0; i < k; i++) {
+			
+			LinhaSimulacao linha = new LinhaSimulacao(lambda, lambdaTS);
+			linha.setupData(prev);
+			linhas.add(linha);
+			prev = linha;
+			
+			String resultStr = 
+					linha.getTempoUltimaChegada() + "; " + linha.getTempoChegadaRelogio() + "; " + 
+					linha.getTempoServico() + "; " + linha.getTempoInicioServico() + "; " + 
+					linha.getTempoClienteFila() + "; " + linha.getTempoFinalServico() + "; " + 
+					linha.getTempoClienteSistema() + "; " + linha.getTempoOciosoOperador() + "\n";
+			
+			writer.write(resultStr);
+			
+			tempoServicoTotal += linha.getTempoServico();
+			tempoClienteFilaTotal += linha.getTempoClienteFila();
+			tempoClienteSistemaTotal += linha.getTempoClienteSistema();
+			tempoLivreOperadorTotal += linha.getTempoOciosoOperador();
+			
+	
+		}
+		writer.flush();
+		writer.close();
+		
+		
+	}
+	
+	
+	
+	
+	/*public void gerarTeste() {
 		float tec[] = {15, 12, 10, 10, 12, 15, 10, 12, 10, 10, 10, 12, 15, 12, 12};
 		float ts[] = {11, 10, 9, 10, 9, 10, 11, 9, 11, 10, 11, 9, 10, 9, 11};
 		LinhaSimulacao prev = null;
@@ -110,7 +146,7 @@ public class TabelaSimulacao {
 			linha.getTempoServico() + "; " + linha.getTempoInicioServico() + "; " + linha.getTempoClienteFila() + "; " +
 					linha.getTempoFinalServico() + "; " + linha.getTempoClienteSistema() + "; " + linha.getTempoOciosoOperador());
 		}
-	}
+	}*/
 
 	public List<LinhaSimulacao> getLinhas() {
 		return linhas;
